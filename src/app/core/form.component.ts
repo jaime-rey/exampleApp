@@ -1,16 +1,11 @@
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  NgForm,
-  Validators,
-  FormGroup,
-  FormArray,
-} from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { Product } from '../model/product.model';
 import { Model } from '../model/repository.model';
 import { Message } from '../messages/message.model';
 import { MessageService } from '../messages/message.service';
 import { MODES, SharedState, StateUpdate } from './sharedState.service';
+import { FilteredFormArray } from './filteredFormArray';
 @Component({
   selector: 'paForm',
   templateUrl: './form.component.html',
@@ -19,7 +14,7 @@ import { MODES, SharedState, StateUpdate } from './sharedState.service';
 export class FormComponent {
   product: Product = new Product();
   editing: boolean = false;
-  keywordGroup = new FormArray([this.createKeywordFormControl()]);
+  keywordGroup = new FilteredFormArray([this.createKeywordFormControl()]);
   productForm: FormGroup = new FormGroup({
     name: new FormControl('', {
       validators: [
@@ -38,11 +33,6 @@ export class FormComponent {
       keywords: this.keywordGroup,
     }),
   });
-  // ngOnInit() {
-  //   this.productForm.get('details')?.statusChanges.subscribe((newStatus) => {
-  //     this.messageService.reportMessage(new Message(`Details ${newStatus}`));
-  //   });
-  // }
   constructor(
     private model: Model,
     private state: SharedState,
@@ -95,6 +85,14 @@ export class FormComponent {
     this.productForm.reset();
   }
   createKeywordFormControl(): FormControl {
-    return new FormControl();
+    return new FormControl('', {
+      validators: Validators.pattern('^[A-Za-z ]+$'),
+    });
+  }
+  addKeywordControl() {
+    this.keywordGroup.push(this.createKeywordFormControl());
+  }
+  removeKeywordControl(index: number) {
+    this.keywordGroup.removeAt(index);
   }
 }
