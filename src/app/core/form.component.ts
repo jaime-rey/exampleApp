@@ -26,8 +26,16 @@ export class FormComponent {
     price: new FormControl('', {
       validators: [Validators.required, Validators.pattern('^[0-9.]+$')],
     }),
+    details: new FormGroup({
+      supplier: new FormControl('', { validators: Validators.required }),
+      keywords: new FormControl('', { validators: Validators.required }),
+    }),
   });
-
+  ngOnInit() {
+    this.productForm.get('details')?.statusChanges.subscribe((newStatus) => {
+      this.messageService.reportMessage(new Message(`Details ${newStatus}`));
+    });
+  }
   constructor(
     private model: Model,
     private state: SharedState,
@@ -47,14 +55,9 @@ export class FormComponent {
       this.messageService.reportMessage(
         new Message(`Editing ${this.product.name}`)
       );
-      // this.nameField.setValue(this.product.name);
-
-      // this.categoryField.setValue(this.product.category);
     } else {
       this.product = new Product();
       this.messageService.reportMessage(new Message('Creating New Product'));
-      // this.nameField.setValue('');
-      // this.categoryField.setValue('');
     }
     this.productForm.reset(this.product);
   }
