@@ -5,9 +5,9 @@ import { ModelModule } from '../model/model.module';
 import { TableComponent } from './table.component';
 import { FormComponent } from './form.component';
 import { SharedState } from './sharedState.service';
-import { ValidationHelper } from './validation_ helper';
 import { ValidationErrorsDirective } from './validationErrors.directive';
-
+import { HiLowValidatorDirective } from '../validation/hilow';
+import { ValidationHelper } from './validation_ helper';
 @NgModule({
   imports: [BrowserModule, FormsModule, ModelModule, ReactiveFormsModule],
   declarations: [
@@ -15,6 +15,7 @@ import { ValidationErrorsDirective } from './validationErrors.directive';
     FormComponent,
     ValidationHelper,
     ValidationErrorsDirective,
+    HiLowValidatorDirective,
   ],
   exports: [ModelModule, TableComponent, FormComponent],
   providers: [SharedState],

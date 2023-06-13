@@ -5,8 +5,10 @@ import { Model } from '../model/repository.model';
 import { Message } from '../messages/message.model';
 import { MessageService } from '../messages/message.service';
 import { MODES, SharedState, StateUpdate } from './sharedState.service';
-import { FilteredFormArray } from './filteredFormArray';
 import { LimitValidator } from '../validation/limit';
+import { ProhibitedValidator } from '../validation/prohibited';
+import { UniqueValidator } from '../validation/unique';
+import { FilteredFormArray } from './filteredFormArray';
 @Component({
   selector: 'paForm',
   templateUrl: './form.component.html',
@@ -15,7 +17,9 @@ import { LimitValidator } from '../validation/limit';
 export class FormComponent {
   product: Product = new Product();
   editing: boolean = false;
-  keywordGroup = new FilteredFormArray([this.createKeywordFormControl()]);
+  keywordGroup = new FilteredFormArray([this.createKeywordFormControl()], {
+    validators: UniqueValidator.unique(),
+  });
   productForm: FormGroup = new FormGroup({
     name: new FormControl('', {
       validators: [
@@ -25,7 +29,10 @@ export class FormComponent {
       ],
       updateOn: 'change',
     }),
-    category: new FormControl('', { validators: Validators.required }),
+    category: new FormControl('', {
+      validators: Validators.required,
+      asyncValidators: ProhibitedValidator.prohibited(),
+    }),
     price: new FormControl('', {
       validators: [
         Validators.required,

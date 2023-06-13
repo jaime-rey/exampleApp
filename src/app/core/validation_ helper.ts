@@ -13,7 +13,6 @@ export class ValidationHelper {
   formatMessages(errors: ValidationErrors | null, name: string): string[] {
     let messages: string[] = [];
     for (let errorName in errors) {
-      console.log(errorName);
       switch (errorName) {
         case 'required':
           messages.push(`You must enter a ${name}`);
@@ -29,6 +28,19 @@ export class ValidationHelper {
         case 'limit':
           messages.push(
             `The ${name} must be less than ${errors['limit'].limit}`
+          );
+          break;
+        case 'hilow':
+          messages.push(
+            `The ${name} must be between ${errors['hilow'].low} and ${errors['hilow'].high}`
+          );
+          break;
+        case 'unique':
+          messages.push(`The ${name} must be unique`);
+          break;
+        case 'prohibited':
+          messages.push(
+            `The ${name} may not contain "${errors['prohibited'].prohibited}"`
           );
           break;
       }
