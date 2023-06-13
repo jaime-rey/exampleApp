@@ -1,20 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Product } from './product.model';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { RestDataSource } from './rest.datasource';
 @Injectable()
 export class Model {
   private products: Product[];
   private locator = (p: Product, id?: number) => p.id == id;
+  private replaySubject: ReplaySubject<Product[]>;
   constructor(private dataSource: RestDataSource) {
     this.products = new Array<Product>();
-    this.dataSource.getData().subscribe((data) => (this.products = data));
+    this.replaySubject = new ReplaySubject<Product[]>(1);
+    this.dataSource.getData().subscribe((data) => {
+      this.products = data;
+      this.replaySubject.next(data);
+      this.replaySubject.complete();
+    });
   }
   getProducts(): Product[] {
     return this.products;
   }
   getProduct(id: number): Product | undefined {
     return this.products.find((p) => this.locator(p, id));
+  }
+  getProductObservable(id: number): Observable<Product | undefined> {
+    let subject = new ReplaySubject<Product | undefined>(1);
+    this.replaySubject.subscribe((products) => {
+      subject.next(products.find((p) => this.locator(p, id)));
+      subject.complete();
+    });
+    return subject;
   }
   saveProduct(product: Product) {
     if (product.id == 0 || product.id == null) {

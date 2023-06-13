@@ -8,8 +8,16 @@ import { SharedState } from './sharedState.service';
 import { ValidationErrorsDirective } from './validationErrors.directive';
 import { HiLowValidatorDirective } from '../validation/hilow';
 import { ValidationHelper } from './validation_ helper';
+
+import { RouterModule } from '@angular/router';
 @NgModule({
-  imports: [BrowserModule, FormsModule, ModelModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ModelModule,
+    ReactiveFormsModule,
+    RouterModule,
+  ],
   declarations: [
     TableComponent,
     FormComponent,

@@ -28,14 +28,27 @@
         >
           Delete
         </button>
-        <button class="btn btn-warning btn-sm" (click)="editProduct(item.id)">
+        <button
+          class="btn btn-warning btn-sm"
+          (click)="editProduct(item.id)"
+          [routerLink]="[
+            '/form',
+            'edit',
+            item.id,
+            { name: item.name, category: item.category, price: item.price }
+          ]"
+        >
           Edit
         </button>
       </td>
     </tr>
   </tbody>
 </table>
-<button class="btn btn-primary m-1" (click)="createProduct()">
+<button
+  class="btn btn-primary m-1"
+  (click)="createProduct()"
+  routerLink="/form/create"
+>
   Create New Product
 </button>
 <button class="btn btn-danger m-1" (click)="deleteProduct(-1)">
