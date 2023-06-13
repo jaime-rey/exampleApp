@@ -49,14 +49,16 @@ export class FormComponent {
     activeRoute: ActivatedRoute,
     public router: Router
   ) {
-    this.editing = activeRoute.snapshot.params['mode'] == 'edit';
-    let id = activeRoute.snapshot.params['id'];
-    if (id != null) {
-      model.getProductObservable(id).subscribe((p) => {
-        Object.assign(this.product, p || new Product());
-        this.productForm.patchValue(this.product);
-      });
-    }
+    activeRoute.params.subscribe((params) => {
+      this.editing = params['mode'] == 'edit';
+      let id = params['id'];
+      if (id != null) {
+        model.getProductObservable(id).subscribe((p) => {
+          Object.assign(this.product, p || new Product());
+          this.productForm.patchValue(this.product);
+        });
+      }
+    });
   }
   submitForm() {
     if (this.productForm.valid) {
