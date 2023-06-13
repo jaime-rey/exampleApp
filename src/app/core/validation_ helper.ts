@@ -13,18 +13,23 @@ export class ValidationHelper {
   formatMessages(errors: ValidationErrors | null, name: string): string[] {
     let messages: string[] = [];
     for (let errorName in errors) {
+      console.log(errorName);
       switch (errorName) {
         case 'required':
           messages.push(`You must enter a ${name}`);
           break;
         case 'minlength':
-          messages.push(`A ${name} must be at least
-${errors['minlength'].requiredLength}
-characters`);
+          messages.push(
+            `A ${name} must be at least ${errors['minlength'].requiredLength} characters`
+          );
           break;
         case 'pattern':
-          messages.push(`The ${name} contains
-illegal characters`);
+          messages.push(`The ${name} contains illegal characters`);
+          break;
+        case 'limit':
+          messages.push(
+            `The ${name} must be less than ${errors['limit'].limit}`
+          );
           break;
       }
     }
