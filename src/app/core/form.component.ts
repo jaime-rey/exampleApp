@@ -45,23 +45,15 @@ export class FormComponent {
     }),
   });
   constructor(
-    private model: Model,
+    public model: Model,
     activeRoute: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.editing = activeRoute.snapshot.params['mode'] == 'edit';
     let id = activeRoute.snapshot.params['id'];
     if (id != null) {
       model.getProductObservable(id).subscribe((p) => {
         Object.assign(this.product, p || new Product());
-        this.product.name =
-          activeRoute.snapshot.params['name'] ?? this.product.name;
-        this.product.category =
-          activeRoute.snapshot.params['category'] ?? this.product.category;
-        let price = activeRoute.snapshot.params['price'];
-        if (price != null) {
-          this.product.price == Number.parseFloat(price);
-        }
         this.productForm.patchValue(this.product);
       });
     }
