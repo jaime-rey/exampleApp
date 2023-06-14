@@ -10,7 +10,7 @@ export class RestDataSource {
     @Inject(REST_URL) private url: string
   ) {}
   getData(): Observable<Product[]> {
-    return this.sendRequest<Product[]>('GET', this.url).pipe(delay(5000));
+    return this.sendRequest<Product[]>('GET', this.url).pipe(delay(2000));
   }
   saveProduct(product: Product): Observable<Product> {
     return this.sendRequest<Product>('POST', this.url, product);

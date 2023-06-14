@@ -11,6 +11,7 @@ import { ProductCountComponent } from './productCount.component';
 import { CategoryCountComponent } from './categoryCount.component';
 import { NotFoundComponent } from './notFound.component';
 import { ValidationHelper } from './validation_ helper';
+import { UnsavedGuard } from './unsaved.guard';
 @NgModule({
   imports: [
     BrowserModule,
@@ -30,5 +31,6 @@ import { ValidationHelper } from './validation_ helper';
     NotFoundComponent,
   ],
   exports: [ModelModule, TableComponent, FormComponent],
+  providers: [UnsavedGuard],
 })
 export class CoreModule {}
