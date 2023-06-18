@@ -12,6 +12,8 @@ import { CategoryCountComponent } from './categoryCount.component';
 import { NotFoundComponent } from './notFound.component';
 import { ValidationHelper } from './validation_ helper';
 import { UnsavedGuard } from './unsaved.guard';
+import { MaterialFeatures } from '../material.module';
+import { CustomButton } from './customButton.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -19,6 +21,7 @@ import { UnsavedGuard } from './unsaved.guard';
     ModelModule,
     ReactiveFormsModule,
     RouterModule,
+    MaterialFeatures
   ],
   declarations: [
     TableComponent,
@@ -29,6 +32,7 @@ import { UnsavedGuard } from './unsaved.guard';
     ProductCountComponent,
     CategoryCountComponent,
     NotFoundComponent,
+    CustomButton
   ],
   exports: [ModelModule, TableComponent, FormComponent],
   providers: [UnsavedGuard],

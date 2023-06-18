@@ -13,7 +13,6 @@ export class Model {
     this.dataSource.getData().subscribe((data) => {
       this.products = data;
       this.replaySubject.next(data);
-      this.replaySubject.complete();
     });
   }
   getProducts(): Product[] {
@@ -30,6 +29,9 @@ export class Model {
     });
     return subject;
   }
+  getProductsObservable(): Observable<Product[]> {
+    return this.replaySubject;
+    }
   getNextProductId(id?: number): Observable<number> {
     let subject = new ReplaySubject<number>(1);
     this.replaySubject.subscribe((products) => {
@@ -71,12 +73,14 @@ export class Model {
         this.products.splice(index, 1, p);
       });
     }
+    this.replaySubject.next(this.products);
   }
   deleteProduct(id: number) {
     this.dataSource.deleteProduct(id).subscribe(() => {
       let index = this.products.findIndex((p) => this.locator(p, id));
       if (index > -1) {
         this.products.splice(index, 1);
+        this.replaySubject.next(this.products);
       }
     });
   }

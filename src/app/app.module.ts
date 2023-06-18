@@ -8,6 +8,7 @@ import { routing } from './app.routing';
 import { TermsGuard } from './terms.guard';
 import { LoadGuard } from './load.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button'; 
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -17,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MessageModule,
     routing,
     BrowserAnimationsModule,
+    MatButtonModule
   ],
   providers: [TermsGuard, LoadGuard],
   bootstrap: [AppComponent],
